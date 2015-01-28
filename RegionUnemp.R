@@ -3,9 +3,52 @@ library(dplyr)
 library(ggplot2)
 
 setwd("C:/Users/Laila/Desktop/Stage_PEmp")
+dat2 <- read.csv("2002-12UnempRegion2.csv", header=T, sep=";")
+
+
+
+# evolution for France (national level)
+
+## selecting observation based on values: we extract a subset where values of "Region" is
+## "France metropolitaine"
+
+frmetrop <- dat2[which(dat2$Region=="France metropolitaine"),]
+
+
+ggplot(data=frmetrop, aes(x=row.names, y=UnempRate)) +
+  geom_point() +
+  geom_line() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ggtitle("Evolution of regional nemployment Rates in France (2002-2012) - INSEE data ") +
+  labs(x="Date (in quarters)", y="Unemployment rate")
+  
+
+# Getting a representation with a continuous line:
+
+frmetro2 <- read.csv("UnempRateFrance.csv", header=T, sep=";")
+
+ggplot(data=frmetro2, aes(x=Order, y=UnempRate)) +
+  geom_point() +
+  geom_line() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ggtitle("Evolution of regional nemployment Rates in France (2002-2012) - INSEE data ") +
+  labs(x="N-th quarter, (starting Q1 2002)", y="Unemployment rate")
+
+
+# evolution for all regions (local level)
+
+ggplot(data=dat2, aes(x=Date, y=UnempRate, group=Region, color=Region)) +
+  geom_line() +
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ggtitle("Evolution of regional nemployment Rates in France (2002-2012) - INSEE data ") +
+  labs(x="Date (in quarters)", y="Unemployment rate")
+
+
+
+## in detail for each region
 dat <- read.csv("UnempRatesRegions2002-2012.csv", header=T, sep=";")
 
-max(dat)
 
 ggplot(dat, aes(x=Trimestre, y=Alsace)) +
   geom_bar(stat = "identity", fill="lightblue") +
@@ -115,7 +158,7 @@ ggplot(dat, aes(x=Trimestre, y=Provence.Alpes.Cote.d.Azur)) +
   ylim(0, 15)  
 
 ggplot(dat, aes(x=Trimestre, y=Rhone.Alpes)) +
-  geom_bar(stat = "identity", fill="lightblue") +
+g <-  geom_bar(stat = "identity", fill="lightblue") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   ylim(0, 15)  
 
@@ -125,7 +168,7 @@ f<- ggplot(dat, aes(x=Trimestre, y=France.metropolitaine)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   ylim(0, 15)  
 
-view(f)
+###
 
-ggplot(dat, aes(x=Trimestre, y=France.metropolitaine)) +
-  geom_line()
+
+
