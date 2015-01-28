@@ -7,37 +7,23 @@ dat2 <- read.csv("2002-12UnempRegion2.csv", header=T, sep=";")
 
 
 
-# evolution for France (national level)
+# evolution for France (national level, "France Métropolitaine")
 
-## selecting observation based on values: we extract a subset where values of "Region" is
-## "France metropolitaine"
+dat2$dates <- as.Date(dat2$Date2, "%m/%d/%Y")
 
 frmetrop <- dat2[which(dat2$Region=="France metropolitaine"),]
 
-
-ggplot(data=frmetrop, aes(x=row.names, y=UnempRate)) +
+ggplot(data=frmetrop, aes(x=dates, y=UnempRate)) +
   geom_point() +
   geom_line() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  ggtitle("Evolution of regional nemployment Rates in France (2002-2012) - INSEE data ") +
+  ggtitle("Evolution of regional unemployment Rates in France (2002-2012) - INSEE data ") +
   labs(x="Date (in quarters)", y="Unemployment rate")
   
 
-# Getting a representation with a continuous line:
-
-frmetro2 <- read.csv("UnempRateFrance.csv", header=T, sep=";")
-
-ggplot(data=frmetro2, aes(x=Order, y=UnempRate)) +
-  geom_point() +
-  geom_line() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  ggtitle("Evolution of regional nemployment Rates in France (2002-2012) - INSEE data ") +
-  labs(x="N-th quarter, (starting Q1 2002)", y="Unemployment rate")
-
-
 # evolution for all regions (local level)
 
-ggplot(data=dat2, aes(x=Date, y=UnempRate, group=Region, color=Region)) +
+ggplot(data=dat2, aes(x=dates, y=UnempRate, group=Region, color=Region)) +
   geom_line() +
   geom_point() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
